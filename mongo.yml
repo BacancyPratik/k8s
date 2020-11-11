@@ -15,12 +15,18 @@ spec:
         app: mongodb
     spec:
       containers:
-      - name: mongodb
-        image: mongodb
-        ports:
-        - containerPort: 27017
-        env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          value: cGFzc3dvcmQ=
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          value: cGFzc3dvcmQ=
+        - name: mongodb
+          image: mongodb
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongodb-root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongodb-root-password
